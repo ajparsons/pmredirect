@@ -7,7 +7,8 @@ have access to tools like .htaccess - e.g. when building a site for github pages
 
 To use add ARTICLE_REDIRECT_FROM to the settings conf.
 
-ARTICLE_SAVE_AS  = '{slug}/index.html'
-ARTICLE_REDIRECT_FROM   = "{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html"
+    ARTICLE_SAVE_AS  = '{slug}/index.html'
+    
+    ARTICLE_REDIRECT_FROM   = "{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html"
 
 Will generate "2015/06/05/blog-post/index.html" as a page that redirects to "blog-post/index.html"
