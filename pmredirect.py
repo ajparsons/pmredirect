@@ -17,7 +17,7 @@ Set ARTICLE_REDIRECT_FROM to the old format "test/{slug}/index.html"
 from pelican import signals
 import os
 
-def make_redirect(output_folder,redirect_from,redirect_to):
+def make_redirect(output_folder,redirect_from,redirect_to,relative_urls,siteurl):
     """
     produces a html file at the specified location that redirects
     
@@ -33,8 +33,12 @@ def make_redirect(output_folder,redirect_from,redirect_to):
     if os.path.isdir(file_path) == False:
         os.makedirs(file_path)
     
+    if relative_urls:
+        redirect_txt = "/" + redirect_to
+    else:
+        redirect_txt = siteurl + "/" + redirect_to
 
-    html_body = html_body.format("/" + redirect_to)
+    html_body = html_body.format(redirect_txt)
     
     file = open(file_destination, "wb")
     file.write(html_body)
@@ -43,7 +47,7 @@ def make_redirect(output_folder,redirect_from,redirect_to):
       
 def create_links(generator,writer):
     for p in generator.articles:
-        make_redirect(writer.output_path,p.get_url_setting('redirect_from'),p.url)
+        make_redirect(writer.output_path,p.get_url_setting('redirect_from'),p.url,writer.settings['RELATIVE_URLS'],writer.settings['SITEURL'])
 
 def register():
     signals.article_writer_finalized.connect(create_links)
